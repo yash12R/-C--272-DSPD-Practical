@@ -6,34 +6,34 @@ int main() {
     char sourceName[100], destName[100];
     char ch;
 
-    // Input file names
+    // Get file names from user
     printf("Enter source file name (e.g., input.txt): ");
     scanf("%s", sourceName);
 
     printf("Enter destination file name (e.g., output.txt): ");
     scanf("%s", destName);
 
-    // Open source file for reading
+    // Open source file in read mode
     sourceFile = fopen(sourceName, "r");
     if (sourceFile == NULL) {
-        printf("Error: Cannot open source file %s.\n", sourceName);
+        printf("Error: Cannot open source file %s\n", sourceName);
         exit(1);
     }
 
-    // Open destination file for writing (creates if not exist)
+    // Create destination file in write mode
     destFile = fopen(destName, "w");
     if (destFile == NULL) {
-        printf("Error: Cannot create destination file %s.\n", destName);
+        printf("Error: Cannot create destination file %s\n", destName);
         fclose(sourceFile);
         exit(1);
     }
 
-    // Copy contents character by character
+    // Copy contents from source to destination
     while ((ch = fgetc(sourceFile)) != EOF) {
         fputc(ch, destFile);
     }
 
-    printf("File copied successfully from %s to %s.\n", sourceName, destName);
+    printf("\nFile copied successfully from %s to %s\n", sourceName, destName);
 
     // Close both files
     fclose(sourceFile);
