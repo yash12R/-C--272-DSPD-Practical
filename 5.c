@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Structure for Binary Tree Node
+// Define the structure of a node
 struct Node {
     int data;
     struct Node *left, *right;
@@ -15,75 +15,86 @@ struct Node* createNode(int value) {
     return newNode;
 }
 
-// Function to insert node in Binary Search Tree
-struct Node* insert(struct Node* root, int value) {
+// Function to insert a node in the binary tree (level-wise for simplicity)
+struct Node* insertNode(struct Node* root, int value) {
     if (root == NULL)
         return createNode(value);
 
-    if (value < root->data)
-        root->left = insert(root->left, value);
-    else if (value > root->data)
-        root->right = insert(root->right, value);
+    int choice;
+    printf("Insert %d to left(1) or right(2) of %d? ", value, root->data);
+    scanf("%d", &choice);
+
+    if (choice == 1)
+        root->left = insertNode(root->left, value);
+    else
+        root->right = insertNode(root->right, value);
 
     return root;
 }
 
-// Inorder traversal (Left, Root, Right)
+// Traversal Functions
 void inorder(struct Node* root) {
-    if (root != NULL) {
-        inorder(root->left);
-        printf("%d ", root->data);
-        inorder(root->right);
-    }
+    if (root == NULL)
+        return;
+    inorder(root->left);
+    printf("%d ", root->data);
+    inorder(root->right);
 }
 
-// Preorder traversal (Root, Left, Right)
 void preorder(struct Node* root) {
-    if (root != NULL) {
-        printf("%d ", root->data);
-        preorder(root->left);
-        preorder(root->right);
-    }
+    if (root == NULL)
+        return;
+    printf("%d ", root->data);
+    preorder(root->left);
+    preorder(root->right);
 }
 
-// Postorder traversal (Left, Right, Root)
 void postorder(struct Node* root) {
-    if (root != NULL) {
-        postorder(root->left);
-        postorder(root->right);
-        printf("%d ", root->data);
-    }
+    if (root == NULL)
+        return;
+    postorder(root->left);
+    postorder(root->right);
+    printf("%d ", root->data);
 }
 
-// Function to search an element in Binary Tree
+// Search Function
 void search(struct Node* root, int key) {
     if (root == NULL) {
-        printf("NULL (Not Found)\n");
+        printf("NULL\n");
         return;
     }
-
     if (root->data == key) {
         printf("Found\n");
         return;
     }
 
-    if (key < root->data)
+    if (root->left != NULL)
         search(root->left, key);
-    else
+    if (root->right != NULL)
         search(root->right, key);
 }
 
+// Main Function
 int main() {
     struct Node* root = NULL;
     int n, value, key;
 
-    printf("Enter number of nodes: ");
+    printf("Enter number of nodes to insert: ");
     scanf("%d", &n);
 
-    printf("Enter node values:\n");
-    for (int i = 0; i < n; i++) {
+    if (n <= 0) {
+        printf("Tree is empty.\n");
+        return 0;
+    }
+
+    printf("Enter value for root node: ");
+    scanf("%d", &value);
+    root = createNode(value);
+
+    for (int i = 1; i < n; i++) {
+        printf("Enter value for node %d: ", i + 1);
         scanf("%d", &value);
-        root = insert(root, value);
+        root = insertNode(root, value);
     }
 
     printf("\nInorder Traversal: ");
@@ -97,7 +108,6 @@ int main() {
 
     printf("\n\nEnter element to search: ");
     scanf("%d", &key);
-    printf("Search result: ");
     search(root, key);
 
     return 0;
