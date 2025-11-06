@@ -1,43 +1,85 @@
 #include <stdio.h>
+
 #include <stdlib.h>
 
+
+
 int main() {
-    FILE *sourceFile, *destFile;
-    char sourceName[100], destName[100];
+
+    char inputFile[100], outputFile[100];
+
+    FILE *source, *destination;
+
     char ch;
 
-    // Get file names from user
-    printf("Enter source file name (e.g., input.txt): ");
-    scanf("%s", sourceName);
 
-    printf("Enter destination file name (e.g., output.txt): ");
-    scanf("%s", destName);
 
-    // Open source file in read mode
-    sourceFile = fopen(sourceName, "r");
-    if (sourceFile == NULL) {
-        printf("Error: Cannot open source file %s\n", sourceName);
+    // Get the file names from user
+
+    printf("Enter the name of the input file: ");
+
+    scanf("%s", inputFile);
+
+
+
+    printf("Enter the name of the output file: ");
+
+    scanf("%s", outputFile);
+
+
+
+    // Open input file in read mode
+
+    source = fopen(inputFile, "r");
+
+    if (source == NULL) {
+
+        printf("Error: Cannot open input file '%s'.\n", inputFile);
+
         exit(1);
+
     }
 
-    // Create destination file in write mode
-    destFile = fopen(destName, "w");
-    if (destFile == NULL) {
-        printf("Error: Cannot create destination file %s\n", destName);
-        fclose(sourceFile);
+
+
+    // Open/create output file in write mode
+
+    destination = fopen(outputFile, "w");
+
+    if (destination == NULL) {
+
+        printf("Error: Cannot create output file '%s'.\n", outputFile);
+
+        fclose(source);
+
         exit(1);
+
     }
+
+
 
     // Copy contents from source to destination
-    while ((ch = fgetc(sourceFile)) != EOF) {
-        fputc(ch, destFile);
+
+    while ((ch = fgetc(source)) != EOF) {
+
+        fputc(ch, destination);
+
     }
 
-    printf("\nFile copied successfully from %s to %s\n", sourceName, destName);
+
+
+    printf("File copied successfully from '%s' to '%s'.\n", inputFile, outputFile);
+
+
 
     // Close both files
-    fclose(sourceFile);
-    fclose(destFile);
+
+    fclose(source);
+
+    fclose(destination);
+
+
 
     return 0;
+
 }
