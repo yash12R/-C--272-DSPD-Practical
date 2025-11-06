@@ -1,57 +1,56 @@
 #include <stdio.h>
 
-// Function to perform binary search
-int* binarySearch(int arr[], int n, int key) {
-    if (arr == NULL || n == 0) {   // Check for null or empty list
-        printf("Search list is empty or invalid.\n");
+// Function to perform Binary Search
+int* binarySearch(int arr[], int size, int key) {
+    if (arr == NULL || size == 0) {
+        printf("Search list is empty or null.\n");
         return NULL;
     }
 
-    int start = 0, end = n - 1, mid;
+    int start = 0, end = size - 1;
 
     while (start <= end) {
-        mid = (start + end) / 2;
-
-        printf("Checking middle index %d (value = %d)\n", mid, arr[mid]);
+        int mid = (start + end) / 2;
+        printf("Examining value %d at index %d\n", arr[mid], mid);
 
         if (arr[mid] == key) {
-            printf("✅ Found %d at index %d\n", key, mid);
-            return &arr[mid];  // return pointer to found element
+            printf("Value found at index %d!\n", mid);
+            return &arr[mid]; // returning pointer to found element
         }
         else if (key > arr[mid]) {
-            printf("Target %d > %d, moving start to index %d\n", key, arr[mid], mid + 1);
-            start = mid + 1;  // adjust start
+            printf("Target greater than midpoint, moving start to index %d\n", mid + 1);
+            start = mid + 1;
         }
         else {
-            printf("Target %d < %d, moving end to index %d\n", key, arr[mid], mid - 1);
-            end = mid - 1;    // adjust end
+            printf("Target less than midpoint, moving end to index %d\n", mid - 1);
+            end = mid - 1;
         }
     }
 
-    printf(" %d not found in the list.\n", key);
+    printf("Value not found in list.\n");
     return NULL;
 }
 
 int main() {
-    int n, key;
+    int arr[50], n, key;
+    int *result;
 
     printf("Enter number of elements: ");
     scanf("%d", &n);
 
-    int arr[n];
     printf("Enter %d sorted elements:\n", n);
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
-    }
 
-    printf("Enter the value to search: ");
+    printf("Enter element to search: ");
     scanf("%d", &key);
 
-    // Call search function
-    int* result = binarySearch(arr, n, key);
+    result = binarySearch(arr, n, key);
 
-    if (result == NULL)
-        printf("Search returned NULL.\n");
+    if (result != NULL)
+        printf("\nResult: Element %d found.\n", *result);
+    else
+        printf("\nResult: Element not found.\n");
 
     return 0;
 }
